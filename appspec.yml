@@ -1,0 +1,9 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/html/
+hooks:
+  - AfterInstall:
+      - location: scripts/update_version.sh
+        timeout: 60

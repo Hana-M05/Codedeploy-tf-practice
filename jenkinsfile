@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'TARGET_VERSION', defaultValue: '2.0', description: 'Enter Version to Deploy')
+    }
+    stages {
+        stage('Trigger Deployment') {
+            steps {
+                script {
+                    // This command tells CodeDeploy to pull from GitHub 
+                    // AND passes the version as an environment variable
+                    sh """
+                    aws deploy create-deployment \
+                        --application-name Htest-web-app \
+                        --deployment-group-name Htest-deployment-group \
+                        --github-location repository=${YOUR_GITHUB_REPO},commitId=${GIT_COMMIT} \
+                        --update-outdated-instances-only
+                    """
+                }
+            }
+        }
+    }
+}
