@@ -12,6 +12,8 @@ pipeline {
                     string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'AWS_SECRET_ACCESS_KEY'),
                     string(credentialsId: 'AWS_SESSION_TOKEN', variable: 'AWS_SESSION_TOKEN')
                 ]) {
+                    // Save the version to AWS Parameter Store
+                   sh "aws ssm put-parameter --name '/app/version' --value '${params.TARGET_VERSION}' --type 'String' --overwrite --region us-west-2"
                     // Removed the ${ } from the repository and commitId
                    sh """
                     aws deploy create-deployment \
