@@ -20,7 +20,8 @@ pipeline {
                         --application-name Htest-web-app \
                         --deployment-group-name Htest-deployment-group \
                         --github-location repository=Hana-M05/Codedeploy-tf-practice,commitId=c74b48f5e0f15d8ffaa32f55292614ee4ac9bb5b \
-                        --region us-west-2
+                        --region us-west-2\
+                        --file-exists-behavior OVERWRITE
                     """
                   }
                 }
