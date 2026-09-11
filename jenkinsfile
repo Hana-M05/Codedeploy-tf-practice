@@ -5,10 +5,6 @@ pipeline {
     }
     stages {
         stage('Trigger Deployment') {
-            agent {
-                docker { image 'amazon/aws-cli' } // This runs the stage inside an AWS container
-                reuseNode true
-            }
             steps {
                 script {
                      withCredentials([
