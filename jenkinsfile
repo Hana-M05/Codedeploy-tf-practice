@@ -20,8 +20,7 @@ pipeline {
                         --application-name Htest-web-app \
                         --deployment-group-name Htest-deployment-group \
                         --github-location repository=https://github.com/Hana-M05/Codedeploy-tf-practice,commitId=${GIT_COMMIT} \
-                        --region us-west-2 \
-                        --environment-variables name=TARGET_VERSION,value=${params.TARGET_VERSION}
+                        --region us-west-2
                     """
                   }
                 }
