@@ -1,10 +1,10 @@
 #!/bin/bash
-# This script runs during the CodeDeploy AfterInstall hook
+# Get the version from AWS Parameter Store
+VERSION=$(aws ssm get-parameter --name "/app/version" --query "Parameter.Value" --output text --region us-west-2)
 
-# 1. Set permissions so Apache can read the files CodeDeploy just dropped
+# Write it to the file PHP reads
+echo "$VERSION" > /var/www/html/version.txt
+
+# Fix permissions
 chown -R ec2-user:apache /var/www/html
 chmod -R 755 /var/www/html
-
-# 2. Write the version to the file so index.php can read it
-# We will pass TARGET_VERSION from Jenkins in the next step
-echo "${TARGET_VERSION}" > /var/www/html/version.txt
