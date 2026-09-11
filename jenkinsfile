@@ -19,7 +19,7 @@ pipeline {
                     aws deploy create-deployment \
                         --application-name Htest-web-app \
                         --deployment-group-name Htest-deployment-group \
-                        --github-location repository=Hana-M05/Codedeploy-tf-practice,commitId=8b241eed70c5eb09a8a319ea1cb860ba50af3a04 \
+                        --github-location repository=Hana-M05/Codedeploy-tf-practice,commitId=c74b48f5e0f15d8ffaa32f55292614ee4ac9bb5b \
                         --region us-west-2
                     """
                   }
