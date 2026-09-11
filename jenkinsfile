@@ -5,8 +5,17 @@ pipeline {
     }
     stages {
         stage('Trigger Deployment') {
+            agent {
+                docker { image 'amazon/aws-cli' } // This runs the stage inside an AWS container
+                reuseNode true
+            }
             steps {
                 script {
+                     withCredentials([
+                    string(credentialsId: 'AWS_ACCESS_KEY_ID', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'AWS_SECRET_ACCESS_KEY'),
+                    string(credentialsId: 'AWS_SESSION_TOKEN', variable: 'AWS_SESSION_TOKEN')
+                ]) {
                     // Removed the ${ } from the repository and commitId
                     sh """
                     aws deploy create-deployment \
@@ -15,6 +24,7 @@ pipeline {
                         --github-location repository=https://github.com/Hana-M05/Codedeploy-tf-practice.git,commitId=4d2c30d50b1ee7c68774c88ec545ededb9980922 \
                         --update-outdated-instances-only
                     """
+                  }
                 }
             }
         }
