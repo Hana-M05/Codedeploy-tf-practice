@@ -12,15 +12,20 @@ pipeline {
                     string(credentialsId: 'AWS_SECRET_ACCESS_KEY', variable: 'AWS_SECRET_ACCESS_KEY'),
                     string(credentialsId: 'AWS_SESSION_TOKEN', variable: 'AWS_SESSION_TOKEN')
                 ]) {
-                    // Save the version to AWS Parameter Store
-                   sh "aws ssm put-parameter --name '/app/version' --value '${params.TARGET_VERSION}' --type 'String' --overwrite --region us-west-2"
-                    // Removed the ${ } from the repository and commitId
-                   sh """
+                    // 1. Generate an automatic version name (e.g., "Build #12")
+                    def autoVersion = "Build #${env.BUILD_NUMBER}"
+                    
+                    // 2. Update the Version in AWS Parameter Store
+                    // We use the autoVersion variable instead of params.TARGET_VERSION
+                    sh "aws ssm put-parameter --name '/app/version' --value '${autoVersion}' --type 'String' --overwrite --region us-west-2"
+                    
+                    // 3. Trigger CodeDeploy
+                    sh """
                     aws deploy create-deployment \
                         --application-name Htest-web-app \
                         --deployment-group-name Htest-deployment-group \
-                        --github-location repository=Hana-M05/Codedeploy-tf-practice,commitId=70f8029b75c416e22829bc0976673c199789f731 \
-                        --region us-west-2\
+                        --github-location repository=Hana-M05/Codedeploy-tf-practice,commitId=${GIT_COMMIT} \
+                        --region us-west-2 \
                         --file-exists-behavior OVERWRITE
                     """
                   }
