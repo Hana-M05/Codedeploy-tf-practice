@@ -3,7 +3,7 @@
   $version = file_exists('version.txt') ? trim(file_get_contents('version.txt')) : '1.0';
   
   // 2. Visual logic: Grey for Dev/Initial, Green for Production/Success
-  $theme_color = ($version == '1.0') ? '#6c757d' : '#28a745'; 
+  $theme_color = ($version == '1.0') ? '#6c757d' : '#1a2282'; 
   
   // 3. Get Instance Metadata (Proves the EC2 is in a Private Subnet)
   $instance_ip = $_SERVER['SERVER_ADDR'];

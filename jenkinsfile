@@ -13,7 +13,7 @@ pipeline {
                     string(credentialsId: 'AWS_SESSION_TOKEN', variable: 'AWS_SESSION_TOKEN')
                 ]) {
                     // 1. Generate an automatic version name (e.g., "Build #12")
-                    def autoVersion = "Build #${env.BUILD_NUMBER}"
+                    def autoVersion = "#${env.BUILD_NUMBER}"
                     
                     // 2. Update the Version in AWS Parameter Store
                     // We use the autoVersion variable instead of params.TARGET_VERSION
